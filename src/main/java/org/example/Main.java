@@ -22,6 +22,10 @@ class StringCalculator {
         List<Integer> negNums = new ArrayList<>();
         boolean containsNegative = false;
 
+        if (numbers.contains("\n")) {
+            numbers = numbers.replaceAll("\n", ",");
+        }
+
         String[] arr = numbers.split(",");
         for (String s : arr) {
             if (isANumber(s.trim())) {
@@ -48,6 +52,6 @@ class StringCalculator {
 public class Main {
     public static void main(String[] args) throws Exception {
         StringCalculator calculator = new StringCalculator();
-        System.out.println(calculator.add("2, 1001"));
+        System.out.println(calculator.add("1\n2, 3"));
     }
 }
