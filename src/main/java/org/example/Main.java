@@ -5,6 +5,7 @@ import java.util.List;
 
 class StringCalculator {
 
+    // Returns true if a string is a number
     private boolean isANumber (String num) {
         try {
             Integer.parseInt(num);
@@ -14,6 +15,7 @@ class StringCalculator {
         }
     }
 
+    // Returns true if a number is negative
     private boolean isNegative (int num) {
         return num < 0;
     }
@@ -25,6 +27,11 @@ class StringCalculator {
         List<Integer> negNums = new ArrayList<>();
         boolean containsNegative = false; // By default, it is assumed no numbers are negative
 
+        // Case handling for empty String
+        if (numbers.equals("")) {
+            return 0;
+        }
+
         // Set odd even steps
         if (numbers.length() > 3) {
             String syntax = "";
@@ -34,12 +41,10 @@ class StringCalculator {
             if (syntax.equals("0//")) {
                 oddEvenStart = 1;
                 oddEvenSteps = 2;
-                System.out.println("Odd even: " + oddEvenStart + " Steps: " + oddEvenSteps);
                 numbers = numbers.replace(syntax, "");
             }
             else if (syntax.equals("1//")) {
                 oddEvenSteps = 2;
-                System.out.println("Odd even: " + oddEvenStart);
                 numbers = numbers.replace(syntax, "");
             }
         }
@@ -56,6 +61,7 @@ class StringCalculator {
             numbers = numbers.replaceAll("\n", delimiter);
         }
 
+        // Amount of numbers don't matter since the string is split here
         String[] arr = numbers.split(delimiter); // Splitting string into array according to delimiter
         for (int i = oddEvenStart; i < arr.length; i = i + oddEvenSteps) {
             String s = arr[i];
@@ -82,8 +88,28 @@ class StringCalculator {
 }
 
 public class Main {
-    public static void main(String[] args) throws Exception {
-        StringCalculator calculator = new StringCalculator();
-        System.out.println(calculator.add("1////;\n1;2;3;4;5"));
+
+    private static void printTestCase (int testCaseNumber, String input) {
+        try {
+            StringCalculator calculator = new StringCalculator();
+            // Separate print statements required to print exceptions
+            System.out.print("Test Case " + testCaseNumber + ":\t");
+            System.out.print(calculator.add(input) + "\n");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void main(String[] args) {
+        printTestCase(1, ""); // Empty String
+        printTestCase(2, "1, 2, 3"); // String with spaced commas
+        printTestCase(3, "1,2,3,4"); // String without spaced commas
+        printTestCase(4, "1,b,3,d, e"); // Inclusion of Alphabets, mix of spaced and un-spaced comma
+        printTestCase(5, "1,b, 3,d, e,-8"); // Inclusion of Negative numbers
+        printTestCase(6, "1,b,-3,d, e,-8, 5,-1"); // Handling multiple negative numbers
+        printTestCase(6, "1,b, 3,d, 1001, 5"); // Ignoring numbers above 1000
+        printTestCase(7, "1,b, 3\nd, 1001, 5"); // Support for new lines
+        printTestCase(8, "//#\n1#b# 3\nd# 1001# 5"); // Use of custom delimiter
+        printTestCase(9, "1////;\n1;2;3;4;5"); // Even index addition plus use of custom delimiter
     }
 }
