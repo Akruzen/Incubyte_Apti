@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class StringCalculator {
@@ -18,18 +19,27 @@ class StringCalculator {
     }
     public int add (String numbers) throws Exception {
         int sum = 0;
+        List<Integer> negNums = new ArrayList<>();
+        boolean containsNegative = false;
+
         String[] arr = numbers.split(",");
-        for (int i = 0; i < arr.length; i++) {
-            if (isANumber(arr[i].trim())) {
-                if (isNegative(Integer.parseInt(arr[i].trim()))) {
-                    throw new Exception("Negatives not allowed: " + arr[i].trim());
+        for (String s : arr) {
+            if (isANumber(s.trim())) {
+                if (Integer.parseInt(s.trim()) > 1000) {
+                    continue;
                 }
-                else {
-                    sum += Integer.parseInt(arr[i].trim());
+                if (isNegative(Integer.parseInt(s.trim()))) {
+                    containsNegative = true;
+                    negNums.add(Integer.parseInt(s.trim()));
+                } else {
+                    sum += Integer.parseInt(s.trim());
                 }
             } else {
-                sum += (arr[i].trim().charAt(0) - 96);
+                sum += (s.trim().charAt(0) - 96);
             }
+        }
+        if (containsNegative) {
+            throw new Exception("Negatives not allowed: " + negNums);
         }
         return sum;
     }
@@ -38,6 +48,6 @@ class StringCalculator {
 public class Main {
     public static void main(String[] args) throws Exception {
         StringCalculator calculator = new StringCalculator();
-        System.out.println(calculator.add("1, 2, a, c"));
+        System.out.println(calculator.add("2, 1001"));
     }
 }
