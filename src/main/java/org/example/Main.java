@@ -19,9 +19,30 @@ class StringCalculator {
     }
     public int add (String numbers) throws Exception {
         int sum = 0;
+        int oddEvenStart = 0;
+        int oddEvenSteps = 1;
         String delimiter = ","; // set the default value of delimiter here
         List<Integer> negNums = new ArrayList<>();
         boolean containsNegative = false; // By default, it is assumed no numbers are negative
+
+        // Set odd even steps
+        if (numbers.length() > 3) {
+            String syntax = "";
+            for (int i = 0; i < 3; i++) {
+                syntax += numbers.charAt(i);
+            }
+            if (syntax.equals("0//")) {
+                oddEvenStart = 1;
+                oddEvenSteps = 2;
+                System.out.println("Odd even: " + oddEvenStart + " Steps: " + oddEvenSteps);
+                numbers = numbers.replace(syntax, "");
+            }
+            else if (syntax.equals("1//")) {
+                oddEvenSteps = 2;
+                System.out.println("Odd even: " + oddEvenStart);
+                numbers = numbers.replace(syntax, "");
+            }
+        }
 
         // Set the delimiter
         if (numbers.contains("//")) {
@@ -36,7 +57,8 @@ class StringCalculator {
         }
 
         String[] arr = numbers.split(delimiter); // Splitting string into array according to delimiter
-        for (String s : arr) {
+        for (int i = oddEvenStart; i < arr.length; i = i + oddEvenSteps) {
+            String s = arr[i];
             if (isANumber(s.trim())) {
                 if (Integer.parseInt(s.trim()) > 1000) {
                     continue;
@@ -62,6 +84,6 @@ class StringCalculator {
 public class Main {
     public static void main(String[] args) throws Exception {
         StringCalculator calculator = new StringCalculator();
-        System.out.println(calculator.add("//;\n1;2"));
+        System.out.println(calculator.add("1////;\n1;2;3;4;5"));
     }
 }
