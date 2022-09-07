@@ -88,7 +88,6 @@ class StringCalculator {
 }
 
 public class Main {
-
     private static void printTestCase (int testCaseNumber, String input) {
         try {
             StringCalculator calculator = new StringCalculator();
@@ -111,5 +110,6 @@ public class Main {
         printTestCase(7, "1,b, 3\nd, 1001, 5"); // Support for new lines
         printTestCase(8, "//#\n1#b# 3\nd# 1001# 5"); // Use of custom delimiter
         printTestCase(9, "1////;\n1;2;3;4;5"); // Even index addition plus use of custom delimiter
+        printTestCase(10, "0////;\n1;2;3; 4;5"); // Even index addition plus use of custom delimiter
     }
 }
